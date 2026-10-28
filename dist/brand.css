@@ -1,0 +1,9 @@
+.brand-mascot{display:inline-block;position:relative;flex:0 0 44px;width:44px;height:61px;line-height:0;isolation:isolate;overflow:visible}
+.brand-mascot>img{position:absolute;max-width:none;width:180%;height:135%;left:-40%;top:-11%;object-fit:contain;pointer-events:none}.brand-rabbit-svg{display:block;width:100%;height:100%;overflow:visible;pointer-events:none}.brand-sway{transform-origin:625px 990px;animation:brand-snuggle 4.8s ease-in-out infinite}.brand-ear-left{transform-origin:500px 405px;animation:brand-ear-left 7.3s ease-in-out infinite}.brand-ear-right{transform-origin:750px 405px;animation:brand-ear-right 7.3s .17s ease-in-out infinite}.brand-eyes{transform-origin:627px 594px;animation:brand-blink 5.2s infinite}
+@keyframes brand-snuggle{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-15px) rotate(2deg)}}
+@keyframes brand-ear-left{0%,9%,24%,100%{transform:rotate(0)}12%,18%{transform:rotate(-7deg)}15%,21%{transform:rotate(3deg)}}
+@keyframes brand-ear-right{0%,10%,25%,100%{transform:rotate(0)}13%,19%{transform:rotate(7deg)}16%,22%{transform:rotate(-3deg)}}
+@keyframes brand-blink{0%,42%,48%,86%,92%,100%{transform:scaleY(1)}44%,46%,88%,90%{transform:scaleY(.12)}}
+html[data-brand-motion=off] .brand-sway,html[data-brand-motion=off] .brand-ear,html[data-brand-motion=off] .brand-eyes{animation:none!important;transform:none!important}
+@media(max-width:760px){.brand-mascot{flex-basis:37px;width:37px;height:52px}}
+@media(prefers-reduced-motion:reduce){.brand-sway,.brand-ear,.brand-eyes{animation:none!important;transform:none!important}}

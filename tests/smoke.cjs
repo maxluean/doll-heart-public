@@ -1,0 +1,51 @@
+const fs=require('fs'),vm=require('vm'),assert=require('node:assert/strict');
+process.chdir(require('path').join(__dirname,'..'));
+const art={window:{}};vm.runInNewContext(fs.readFileSync('dist/art.js','utf8'),art);
+vm.runInNewContext(fs.readFileSync('dist/wear-data.js','utf8'),art);
+vm.runInNewContext(fs.readFileSync('dist/catalog.js','utf8'),art);
+vm.runInNewContext(fs.readFileSync('dist/gift-schema.js','utf8'),art);
+const W=art.window.CustomWear;
+const els=new Map();const el=()=>({innerHTML:'',textContent:'',style:{},className:'',classList:{add(){},remove(){},toggle(){}},addEventListener(){},get offsetWidth(){return 1;}});
+const document={querySelector(s){if(!els.has(s))els.set(s,el());return els.get(s);},querySelectorAll(){return[];},addEventListener(){},fonts:{ready:Promise.resolve()}};
+const sandbox={window:{GiftSchema:art.window.GiftSchema,LoveCloud:{has:()=>true},LoveCatalog:art.window.LoveCatalog,CustomWear:W,PixelLove:{...art.window.PixelLove,draw(){}},addEventListener(){}},document,localStorage:{getItem:()=>null,setItem(){}},location:{hash:'',origin:'https://example.test',pathname:'/'},Intl,URL,TextEncoder,TextDecoder,setTimeout,clearTimeout,innerWidth:390};
+vm.runInNewContext(fs.readFileSync('dist/gift-pricing.js','utf8'),sandbox);
+vm.runInNewContext(fs.readFileSync('dist/story-access.js','utf8'),sandbox);
+vm.runInNewContext(fs.readFileSync('dist/app.js','utf8'),sandbox);const api=sandbox.window.DollHeart;
+const check=(name,fn)=>{fn();console.log('PASS',name);};
+check('Thai combining marks and emoji are graphemes',()=>{assert.equal(api.chars('ก้').length,1);assert.equal(api.chars('👩‍❤️‍👩').length,1);});
+check('Music URL exact host allowlist',()=>{for(const url of ['https://youtu.be/test','https://www.youtube.com/watch?v=test','https://open.spotify.com/track/test'])assert.ok(api.songUrl(url));for(const url of ['javascript:alert(1)','http://youtube.com','https://youtube.com.evil.example','https://youtube.com@evil.example','https://evil@youtube.com','https://youtube.com:444/watch','not a URL'])assert.equal(api.songUrl(url),null);});
+check('Normalize clamps 101 graphemes to 100',()=>assert.equal(api.chars(api.normalize({message:'ก'.repeat(101)}).message).length,100));
+check('Invalid enum and color fall back safely',()=>{const s=api.normalize({animal:'<script>',bodyColor:'url(javascript:1)',hat:'bad'});assert.equal(s.animal,'rabbit');assert.equal(s.bodyColor,'#f1dfce');assert.equal(s.hat,'none');});
+check('Invalid flower catalog cannot empty the bouquet',()=>assert.equal(api.normalize({flowers:[{id:'bad',color:'#ffffff'}]}).flowers.length,1));
+check('Flowers are unique and limited to three',()=>{const s=api.normalize({flowers:[{id:'rose',color:'#123456'},{id:'rose',color:'#ffffff'},{id:'daisy',color:'#ffffff'},{id:'tulip',color:'#ffffff'}]});assert.ok(s.flowers.length<=3);assert.equal(s.flowers.filter(f=>f.id==='rose').length,1);});
+check('No unknown fields copied into normalized gift',()=>assert.equal(api.normalize({admin:true}).admin,undefined));
+const meanings={window:{PixelLove:art.window.PixelLove}};
+vm.runInNewContext(fs.readFileSync('dist/bouquet.js','utf8'),meanings);
+const B=meanings.window.Bouquet;
+check('Common flower colors use the intended tone',()=>{for(const [hex,id] of [['#ff0000','red'],['#ffb6c1','pink'],['#ffffff','white'],['#ffcc00','yellow'],['#e7ba5c','yellow'],['#acacd8','purple'],['#94b9d1','blue'],['#0000ff','blue']])assert.equal(B.colorMeaning(hex).id,id,hex);});
+check('Arbitrary colors always have a safe label and meaning',()=>{for(let i=0;i<0xffffff;i+=98731){const tone=B.colorMeaning('#'+i.toString(16).padStart(6,'0'));assert.ok(tone.label&&tone.meaning);}assert.equal(B.colorMeaning('url(evil)').hex,'#d990a6');});
+check('All flower species combine with a color meaning',()=>{for(const f of art.window.PixelLove.flowers){const d=B.describe(f);assert.equal(d.flower.id,f.id);assert.ok(d.flower.meaning&&d.color.meaning);}});
+vm.runInNewContext(fs.readFileSync('dist/story.js','utf8'),meanings);const S=meanings.window.StoryCard;
+const metric={font:'500 28px Mali',measureText(text){const size=Number(this.font.match(/([\d.]+)px/)[1]);return {width:api.chars(text).length*size*.8};}};
+check('Story layout keeps full Thai and emoji text inside its box',()=>{for(const text of ['ขอบคุณที่อยู่ข้างกันเสมอ ♡','ก'.repeat(100),'👩‍❤️‍👩'.repeat(100),'รัก\n'.repeat(30)]){const fit=S.fitted(metric,text,{size:28,min:20,width:824,height:170});assert.equal(fit.lines.join('').replace(/\s/g,''),text.replace(/\s/g,''));assert.ok(fit.height<=170);assert.ok(fit.lines.every(line=>metric.measureText(line).width<=824));}});
+
+check('Preset swatches match their own tone names',()=>{for(const tone of B.tones)assert.equal(B.colorMeaning(tone.swatch).id,tone.id,tone.name);});
+
+check('Custom clothes, hat and glasses survive gift JSON normalization',()=>{const customDesigns=Object.fromEntries(Object.keys(W.specs).map(k=>[k,W.template(k,'#12ab34')]));const gift=api.normalize(JSON.parse(JSON.stringify({...api.defaults(),outfit:'custom',hat:'custom',glasses:'custom',customDesigns})));for(const kind of Object.keys(W.specs)){assert.equal(gift[kind],'custom');assert.equal(gift.customDesigns[kind].pixels,customDesigns[kind].pixels);}const encoded=Buffer.from(JSON.stringify(gift)).toString('base64url');assert.ok(encoded.length<32768);assert.equal(api.normalize(JSON.parse(Buffer.from(encoded,'base64url').toString())).customDesigns.hat.pixels,customDesigns.hat.pixels);});
+check('Custom data rejects invalid sizes, colors, indices, and empty layers',()=>{const d=W.template('outfit');for(const bad of [{...d,pixels:d.pixels+'0'},{...d,palette:['url(evil)']},{...d,pixels:'f'.repeat(d.pixels.length)},W.blank('outfit'),{...d,palette:Array(17).fill('#ffffff')},{...d,v:99}])assert.equal(W.normalize('outfit',bad),null);const gift=api.normalize({outfit:'custom',hat:'custom',glasses:'custom',customDesigns:{outfit:W.blank('outfit'),glasses:{pixels:'<svg>'}}});assert.equal(gift.outfit,'cardigan');assert.equal(gift.hat,'none');assert.equal(gift.glasses,'none');assert.equal(Object.keys(gift.customDesigns).length,0);});
+check('Duplicate and unused colors compact without changing drawing',()=>{const d=W.blank('hat');d.palette=['#AABBCC','#aabbcc','#112233'];d.pixels='01'+d.pixels.slice(2);const clean=W.normalize('hat',d);assert.equal(clean.palette.length,1);assert.equal(clean.pixels.slice(0,2),'00');assert.equal(clean.palette[0],'#aabbcc');});
+check('Stroke, mirror, eraser and contiguous flood fill preserve pixels',()=>{let d=W.blank('glasses');d=W.stroke('glasses',d,W.line([2,2],[2,8]),'#123456',{mirror:true});assert.equal(d.pixels[2*24+2],'0');assert.equal(d.pixels[2*24+21],'0');d=W.stroke('glasses',d,[[2,2]],null);assert.equal(d.pixels[2*24+2],'.');let fill=W.blank('glasses');fill=W.stroke('glasses',fill,[[0,0]],'#abcdef',{fill:true});assert.ok([...fill.pixels].every(c=>c==='0'));assert.equal(W.normalize('glasses',W.stroke('glasses',fill,[[0,0]],null,{fill:true})),null);});
+check('16-color limit rejects a seventeenth color and frees erased colors',()=>{let d=W.blank('hat');for(let i=0;i<16;i++)d=W.stroke('hat',d,[[i,0]],'#'+i.toString(16).padStart(6,'0'));assert.equal(d.palette.length,16);assert.equal(W.stroke('hat',d,[[20,0]],'#ffffff'),null);d=W.stroke('hat',d,[[0,0]],null);assert.ok(W.stroke('hat',d,[[20,0]],'#ffffff'));});
+check('Custom layers render on all animals, including waving sleeves',()=>{const colors=new Set();const ctx=new Proxy({fillStyle:'',fillRect(){colors.add(this.fillStyle);}},{get(t,k){return k in t?t[k]:()=>{};}});const canvas={width:200,height:216,getContext:()=>ctx};for(const a of art.window.PixelLove.animals){const s={...api.defaults(),animal:a.id,outfit:'custom',hat:'custom',glasses:'custom',customDesigns:{outfit:W.template('outfit','#12ab34'),hat:W.template('hat','#56cd78'),glasses:W.template('glasses','#90ef12')}};art.window.PixelLove.draw(canvas,s);art.window.PixelLove.draw(canvas,s,{pose:{wave:true,waveAngle:2.5}});}for(const color of ['#12ab34','#56cd78','#90ef12'])assert.ok(colors.has(color),color);});
+
+check('Story text uses measured positions within its box and restores canvas state',()=>{
+ const calls=[],stack=[],context={...metric,font:'400 12px Test',textAlign:'right',direction:'rtl',save(){stack.push({font:this.font,textAlign:this.textAlign,direction:this.direction});},restore(){Object.assign(this,stack.pop());},beginPath(){},rect(...r){this.bounds=r;},clip(){},fillText(value,x,y,maxWidth){calls.push({value,x,y,width:this.measureText(value).width,align:this.textAlign,maxWidth});}};
+ const original=context.font;
+ for(const value of ['สุขสันต์วันครบรอบนะ หมูอ้วน','ขอบคุณที่เป็นหมูอ้วนที่รักมาโดยตลอด','ก'.repeat(100)]){
+  const start=calls.length;S.drawText(context,value,{x:540,y:1160,width:824,height:170,size:28,min:20,align:'center'});
+  for(const line of calls.slice(start)){assert.equal(line.align,'left');assert.ok(line.x>=128);assert.ok(line.x+line.width<=952);assert.ok(Math.abs(line.x+line.width/2-540)<.01);}
+ }
+ assert.equal(context.font,original);assert.equal(context.textAlign,'right');assert.equal(context.direction,'rtl');assert.equal(stack.length,0);
+});
+check('New paid flowers have distinct pixel drawings at the same chosen color',()=>{const signatures=[];for(const p of art.window.LoveCatalog.products.filter(p=>p.collection==='bloom-20')){const calls=[];const c=new Proxy({fillStyle:'',fillRect(...v){calls.push(['rect',...v,this.fillStyle]);}},{get(t,k){return k in t?t[k]:(...v)=>{calls.push([k,...v]);};}});art.window.PixelLove.bloom(c,p.asset,0,0,'#d990a6');signatures.push(JSON.stringify(calls));}assert.equal(signatures.length,20);assert.equal(new Set(signatures).size,20);});
+check('New animal traits preserve the shared clothing and bouquet renderer',()=>{const needed=['panda','red-panda','monkey'];for(const id of needed){assert.ok(art.window.PixelLove.animals.some(a=>a.id===id));const input={...api.defaults(),animal:id,outfit:'cardigan',hat:'beret',glasses:'round',flowers:[{id:'orchid',color:'#d990a6'}]};assert.equal(api.normalize(input).animal,id);const c=new Proxy({fillStyle:'',fillRect(){}},{get(t,k){return k in t?t[k]:()=>{};}});art.window.PixelLove.draw({width:200,height:216,getContext:()=>c},input,{pose:{wave:true,blink:true,bob:1,tilt:.04}});}});

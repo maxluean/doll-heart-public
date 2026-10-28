@@ -1,0 +1,10 @@
+.git
+.openai
+.env*
+!.env.example
+assets
+docs
+tests
+supabase
+*.zip
+work

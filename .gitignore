@@ -1,0 +1,31 @@
+node_modules/
+.env
+.env.*
+!.env.example
+.DS_Store
+.vercel/
+.env.local
+coverage/
+
+work/
+
+# Cloudflare local state, secrets and generated bundles
+.wrangler/
+.pages/
+.dev.vars
+.dev.vars.*
+lib/generated-schema.mjs
+
+# Keep private exports and local credentials out of the public source snapshot.
+output/
+backups/
+*.dump
+*.sqlite
+*.sqlite3
+*.har
+*.pem
+*.key
+*service-account*.json
+secrets*.json
+# Supply a track you have permission to redistribute/use separately.
+dist/audio/*.mp3

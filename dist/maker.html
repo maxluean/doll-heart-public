@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="th" data-music-disabled="true">
+<head>
+  <meta charset="UTF-8"><script src="/migrate-host.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#fcf6f0">
+  <meta name="description" content="ฝากความในใจไว้กับตุ๊กตาตัวเล็ก แต่งตัว จัดดอกไม้ และเขียนจดหมายให้คนพิเศษ">
+  <title>ความในใจภายในตุ๊กตา · a little love, just for you</title>
+  <link rel="icon" type="image/png" href="brand/rabbit-v1.png"><link rel="icon" type="image/svg+xml" sizes="any" href="brand/rabbit-favicon-v1.svg"><link rel="apple-touch-icon" href="brand/rabbit-v1.png">
+  <script src="/route.js"></script>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preload" href="fonts/Mali-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="delight.css">
+  <link rel="stylesheet" href="painter.css">
+  <link rel="stylesheet" href="cloud.css">
+  <link rel="stylesheet" href="guest.css">
+  <link rel="stylesheet" href="music.css">
+  <link rel="stylesheet" href="settings.css">
+  <script src="art.js" defer></script>
+  <script src="scenes.js" defer></script>
+  <script src="wear-data.js" defer></script>
+  <script src="catalog.js" defer></script>
+  <script src="bouquet.js" defer></script>
+  <script src="gift-schema.js" defer></script>
+  <script src="gift-pricing.js" defer></script>
+  <script src="story-access.js" defer></script>
+  <script src="cloud.js" defer></script>
+  <script src="story.js" defer></script>
+  <script src="motion.js" defer></script>
+  <script src="painter.js" defer></script>
+  <script src="app.js" defer></script>
+  <script src="music.js" defer></script>
+  <script src="settings.js" defer></script>
+  <link rel="stylesheet" href="brand.css">
+  <script src="brand.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="ความในใจภายในตุ๊กตา หน้าหลัก"><span class="brand-mascot" data-brand-logo aria-hidden="true"><img src="brand/rabbit-v1.png" alt="" width="44" height="61" decoding="async"></span><span>ความในใจ<span class="brand-small">ภายในตุ๊กตา</span></span></a>
+    <div class="header-right"><nav class="cloud-nav" aria-label="ร้าน"><button id="open-shop">✿ ร้านเล็ก ๆ</button></nav><span class="prototype-tag">A LITTLE LOVE CLUB</span><button class="settings-open" id="open-settings" type="button" aria-label="เปิดการตั้งค่า" aria-haspopup="dialog" aria-controls="settings-dialog"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M9 2h6v3h3V4h2v4h-1v2h3v6h-3v2h1v3h-4v-2h-2v3H8v-3H6v1H3v-4h2v-2H2V8h3V6H4V3h4v2h1zm1 6v2H8v4h2v2h4v-2h2v-4h-2V8z"/></svg></button></div>
+  </header>
+  <main id="maker">
+    <section class="intro">
+      <span class="intro-doodle doodle-left" aria-hidden="true">♡</span><span class="intro-doodle doodle-right" aria-hidden="true">✿</span>
+      <span class="eyebrow"><span class="tiny-pixel-heart" aria-hidden="true">♥</span> MADE WITH A LITTLE LOVE</span>
+      <h1>บางความในใจ…<br class="mobile-break"> ให้ตุ๊กตาบอกแทน</h1>
+      <p>แต่งตัวให้เจ้าตัวเล็ก แล้วฝากความรักไปหาคนพิเศษ</p>
+    </section>
+    <nav class="steps" aria-label="ขั้นตอนสร้างของขวัญ" id="steps"></nav>
+    <div class="workspace">
+      <section class="preview-panel" aria-label="ตัวอย่างตุ๊กตาของคุณ">
+        <span class="paper-tape" aria-hidden="true"></span>
+        <div class="preview-topline"><span><i class="live-dot"></i> ของขวัญชิ้นเดียวในโลก</span><button class="icon-button" id="background-cycle" title="เปลี่ยนฉาก" aria-label="เปลี่ยนฉาก">▧</button></div>
+        <div class="scene scene-paper" id="scene">
+          <div class="scene-specials" id="scene-specials" aria-label="คอลเลกชันพิเศษ" hidden></div>
+          <div class="scene-stamp">with love,<br><span>always.</span></div><span class="deco star star-one">✦</span><span class="deco star star-two">✧</span><span class="deco heart heart-one">♥</span><span class="deco heart heart-two">♥</span>
+          <div class="pixel-cloud cloud-one"></div><div class="pixel-cloud cloud-two"></div>
+          <canvas id="doll-preview" width="200" height="216" aria-label="ตุ๊กตาที่คุณกำลังแต่งตัว"></canvas>
+          <div class="doll-name-tag"><span aria-hidden="true">✿</span> <span id="doll-name-label">โมจิ</span></div>
+          <div class="scene-ground"></div>
+        </div>
+        <div class="preview-caption"><span class="pixel-spark">✧</span><span id="preview-caption">เจ้าตัวเล็กพร้อมรับความในใจของคุณแล้ว</span></div>
+        <div class="doll-play-controls" aria-label="เล่นกับตุ๊กตา"><button data-doll-action="wave">โบกมือ <span aria-hidden="true">♡</span></button><button data-doll-action="dance">เต้นดุ๊กดิ๊ก <span aria-hidden="true">♫</span></button></div>
+        <div class="gift-summary"><span id="summary-animal">กระต่าย</span><span class="summary-dot">·</span><span id="summary-outfit">คาร์ดิแกนวันเดต</span><span class="summary-dot">·</span><span id="summary-flower">ทิวลิป</span></div>
+      </section>
+      <section class="editor-panel" aria-live="polite" aria-atomic="false">
+        <div class="editor-heading"><div><span class="eyebrow" id="step-kicker">01 / YOUR LITTLE COMPANION</span><h2 id="step-title">เลือกเจ้าตัวเล็ก</h2><p id="step-description">ใครจะเป็นตัวแทนความในใจของคุณ?</p></div><span class="section-flower" aria-hidden="true">✿</span></div>
+        <div id="editor-content"></div>
+        <div class="editor-actions"><button class="text-button back-button" id="back">ย้อนกลับ</button><span class="save-status" id="save-status">บันทึกในเครื่องแล้ว <span>✓</span></span><button class="primary-button" id="next">ถัดไป</button></div>
+      </section>
+    </div>
+    <footer class="site-footer"><span>ความรักไม่ต้องยิ่งใหญ่ แค่ตั้งใจก็พอ <span class="footer-heart">♥</span></span><button class="text-button subtle" id="reset">เริ่มของขวัญชิ้นใหม่</button></footer>
+  </main>
+  <section id="recipient" class="recipient hidden" aria-label="หน้าของขวัญสำหรับคนรับ"></section>
+  <dialog id="settings-dialog" class="settings-dialog" aria-labelledby="settings-title">
+    <header class="settings-header"><div><span class="eyebrow">YOUR LITTLE COMFORT ZONE</span><h2 id="settings-title">การตั้งค่า</h2><p>ปรับบรรยากาศให้สบายใจในแบบคุณ</p></div><button id="close-settings" class="settings-close" type="button" aria-label="ปิดการตั้งค่า">×</button></header>
+    <div class="settings-body">
+      <section aria-label="บรรยากาศของคุณ"><h3 class="settings-section-title">บรรยากาศของคุณ</h3>
+        <button class="settings-row music-toggle" id="music-toggle" type="button" aria-label="เปิดเพลงพื้นหลัง" aria-pressed="false" title="เปิดเพลงพื้นหลัง"><span class="settings-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2 9h4V7h2V5h4v14H8v-2H6v-2H2z"/><g class="music-waves"><path d="M14 8h2v2h2v4h-2v2h-2v-2h2v-4h-2zM18 4h2v2h2v3h2v6h-2v3h-2v2h-2v-3h2V7h-2z"/></g><path class="music-off" d="M15 8h2v2h2V8h2v2h-2v4h2v2h-2v-2h-2v2h-2v-2h2v-4h-2z"/></svg></span><span class="settings-copy"><strong>เพลงพื้นหลัง</strong><small>Romantic · andriih</small><span class="settings-state" data-settings-music-state aria-hidden="true">ปิดอยู่</span></span><span class="settings-switch-art" aria-hidden="true"></span></button>
+        <div class="settings-row"><span class="settings-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 2h2v5h-2zM9 7h2v2H9zm4 0h2v2h-2zM5 10h4v2H5zm10 0h4v2h-4zM9 12h6v3H9zm-2 3h2v2H7zm8 0h2v2h-2zM5 17h2v4H5zm12 0h2v4h-2zM2 3h2v2H2zm18 2h2v2h-2z"/></svg></span><span class="settings-copy"><strong>แอนิเมชัน</strong><small>โบกมือ เต้น และลูกเล่นน่ารัก ๆ</small></span><button class="motion-toggle settings-motion-switch" id="motion-toggle" type="button" aria-pressed="true" aria-label="พักภาพเคลื่อนไหว" title="พักภาพเคลื่อนไหว">Ⅱ</button></div>
+      </section>
+      <section aria-label="ของขวัญของคุณ"><h3 class="settings-section-title">เก็บความในใจของคุณ</h3><button class="settings-row settings-gifts" id="open-manage" type="button"><span class="settings-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 8h18v4H3zm2 5h6v9H5zm8 0h6v9h-6zM5 2h4v2H7v2h4V4h2v2h4V4h-2V2h4v6H5z"/></svg></span><span class="settings-copy"><strong>ของขวัญของฉัน</strong><small>เปิดดูของขวัญและจัดการลิงก์ที่ส่งไว้</small></span></button></section>
+      <p class="settings-footnote">ดนตรีและการเคลื่อนไหว ปรับได้เมื่ออยากพัก ♡</p><a class="music-credit" href="https://pixabay.com/music/solo-piano-romantic-romantic-music-601649/" target="_blank" rel="noopener noreferrer">เพลงโดย andriih · Pixabay</a>
+    </div>
+  </dialog>
+  <div id="toast" class="toast" role="status"></div>
+  <dialog id="reset-dialog"><span class="dialog-icon">✿</span><h2>เริ่มความในใจครั้งใหม่?</h2><p>แบบร่างในเครื่องนี้จะถูกแทนที่ด้วยตุ๊กตาตัวใหม่</p><div class="dialog-actions"><button class="secondary-button" id="cancel-reset">เก็บตัวนี้ไว้ก่อน</button><button class="primary-button" id="confirm-reset">เริ่มใหม่</button></div></dialog>
+  <div id="sr-status" class="sr-only" role="status"></div>
+  <dialog id="story-dialog" class="story-dialog"><div class="story-dialog-header"><div><span class="eyebrow">A KEEPSAKE, MADE FOR YOU</span><h2>ภาพความในใจของคุณ</h2></div><button class="story-close" id="close-story" aria-label="ปิดภาพตัวอย่าง">×</button></div><fieldset class="story-privacy" id="story-privacy"><legend>เลือกความเป็นส่วนตัวของภาพ</legend><label><input type="checkbox" data-story-privacy="hideLetter"><span><strong>ซ่อนจดหมายเป็นความลับ</strong><small>ใช้รูปกุญแจล็อกแทนหัวข้อและข้อความ</small></span></label><div class="story-name-options"><label><input type="checkbox" data-story-privacy="hideFrom"><span>ซ่อนชื่อผู้ส่ง</span></label><label><input type="checkbox" data-story-privacy="hideTo"><span>ซ่อนชื่อผู้รับ</span></label></div><p>ซ่อนชื่อที่ตรงกันในข้อความของภาพด้วย · ของขวัญต้นฉบับยังอ่านได้ตามเดิม</p></fieldset><div id="story-image-wrap" class="story-image-wrap" aria-busy="false"></div><p id="story-render-status" class="story-render-status" role="status"></p><div class="story-dialog-footer"><span>PNG · 1080 × 1920</span><button class="primary-button" data-download>บันทึกภาพนี้</button></div></dialog>
+</body>
+</html>

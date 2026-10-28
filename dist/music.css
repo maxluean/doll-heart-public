@@ -1,0 +1,2 @@
+.music-toggle .music-waves{display:none}.music-toggle .music-off{display:block}.music-toggle[aria-pressed=true] .music-waves{display:block}.music-toggle[aria-pressed=true] .music-off{display:none}.music-toggle svg{shape-rendering:crispEdges;pointer-events:none}.music-toggle[data-state=loading]{opacity:.6}
+.music-credit{color:#a88a7e;text-decoration:underline;text-underline-offset:3px}

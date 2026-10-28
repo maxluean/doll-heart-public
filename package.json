@@ -1,0 +1,34 @@
+{
+  "name": "doll-heart",
+  "version": "0.7.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "dev": "node --env-file-if-exists=.env.local scripts/dev.mjs",
+    "test": "node tests/smoke.cjs && node --test tests/backend.test.mjs tests/frontend.test.mjs tests/payments.test.mjs tests/pages.test.mjs tests/recipient.test.mjs tests/migration.test.mjs tests/story-privacy.test.mjs tests/scenes.test.mjs tests/guide.test.mjs tests/bouquet.test.mjs tests/music.test.mjs tests/brand.test.mjs tests/guest.test.mjs tests/story-access.test.mjs",
+    "check": "node scripts/check.mjs",
+    "predev": "node scripts/build-schema.mjs",
+    "pretest": "node scripts/build-schema.mjs",
+    "precheck": "node scripts/build-schema.mjs",
+    "build:pages": "npm run check && node scripts/build-pages.mjs",
+    "dev:pages": "npm run build:pages && wrangler pages dev .pages --ip 127.0.0.1 --port 8788",
+    "deploy:pages": "npm run build:pages && wrangler pages deploy .pages --project-name specialdoll --branch main",
+    "test:pages": "npm run build:pages && node scripts/test-pages-runtime.mjs",
+    "dev:demo": "node scripts/build-schema.mjs && node scripts/dev.mjs --payment-preview",
+    "audit:public": "node scripts/audit-public-source.mjs"
+  },
+  "dependencies": {
+    "stripe": "23.0.1"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "wrangler": "4.152.0",
+    "miniflare": "5.20261019.2-beta"
+  },
+  "overrides": {
+    "undici": "^7.30.1"
+  }
+}
