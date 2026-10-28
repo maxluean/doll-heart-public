@@ -31,7 +31,7 @@ npm run dev:demo
 
 | ส่วน | เทคโนโลยี |
 | --- | --- |
-| Frontend | HTML, CSS, JavaScript, Canvas 2D, Web Audio element |
+| Frontend | HTML, CSS, JavaScript, Canvas 2D, HTMLAudioElement |
 | Hosting / API | Cloudflare Pages Advanced mode / Pages Functions |
 | Database | Supabase PostgreSQL, SQL functions, RLS |
 | Payments | Stripe Hosted Checkout, PromptPay, signed webhooks |
